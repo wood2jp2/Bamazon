@@ -44,10 +44,35 @@ var bamazonManager = {
             for (let i = 0; i < res.length; i++) {
               console.log(`${res[i].item_id}. ${res[i].product_name} - Price: $${res[i].price}. Quantity Available: ${res[i].stock_quantity}`)
             }
-          })
-          console.log('view low inv');
+          });
           break;
         case 'Add to Inventory':
+          connection.query('SELECT * from products', function(err, res) {
+            if (err) throw (err);
+            for (let i = 0; i < res.length; i++) {
+              console.log(`${res[i].item_id}. ${res[i].product_name} - Quantity: ${res[i].stock_quantity}`)
+            };
+            inquirer.prompt([{
+              name: 'itemToStock',
+              message: 'Please enter the ID of the product you\'d like to stock.'
+            }, {
+              name: 'quantityToAdd',
+              message: 'Please enter quantity to add to current stock.'
+            }]).then(function(answers) {
+              var itemID = answers.itemToStock;
+              var addQuantity = parseInt(answers.quantityToAdd);
+              connection.query(`SELECT * from products WHERE item_id = ${itemID}`, function(err, res) {
+                var refreshedQuantity = res[0].stock_quantity + addQuantity;
+                if (addQuantity) {
+                  connection.query(`UPDATE products SET stock_quantity = ${refreshedQuantity} WHERE item_id = ${itemID}`, function(err, res) {
+                    console.log(`${res[0].product_name}'s QTY updated to ${refreshedQuantity}`);
+                  });
+                } else {
+                  console.log('Please enter a number greater than zero!')
+                }
+              })
+            });
+          })
           console.log('add to inv');
           break;
         case 'Add New Product':
