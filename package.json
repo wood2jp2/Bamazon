@@ -1,0 +1,23 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "Using MySQL, I will be tracking the inventory / orders of a store similar to Amazon.",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wood2jp2/Bamazon.git"
+  },
+  "author": "JPW",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wood2jp2/Bamazon/issues"
+  },
+  "homepage": "https://github.com/wood2jp2/Bamazon#readme",
+  "dependencies": {
+    "inquirer": "^3.2.1",
+    "mysql": "^2.14.1"
+  }
+}
