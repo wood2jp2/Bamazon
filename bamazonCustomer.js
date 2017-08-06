@@ -27,7 +27,9 @@ var bamazon = {
         console.log(res[i].item_id + ' - ' + res[i].product_name +
           ". Price: $" + res[i].price)
       };
+      bamazon.firstPrompt();
     });
+
   },
 
   firstPrompt: function() {
@@ -39,7 +41,24 @@ var bamazon = {
       message: 'How many would you like to buy?'
     }]).then(function(answers) {
       var itemID = answers.itemID;
-      var itemQty = parseInt(answers.quantity);
+      var requestedQty = parseInt(answers.quantity);
+
+      connection.query(`SELECT * from products WHERE item_id = ${itemID}`,
+        function(err, res) {
+          var newQuantity = parseInt(res[0].stock_quantity) - requestedQty;
+          console.log(requestedQty);
+          console.log(res[0].stock_quantity);
+          console.log(newQuantity);
+          if (newQuantity >= 0) {
+            console.log("Item purchased!");
+            connection.query(`UPDATE products SET stock_quantity = ${newQuantity} WHERE item_id = ${itemID}`, function(err, res) {
+              if (err) throw (err);
+              console.log('Item quantity updated!')
+            })
+          } else {
+            console.log('Insufficient quantity!')
+          }
+        })
 
     })
   }
