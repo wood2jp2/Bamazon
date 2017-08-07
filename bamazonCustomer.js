@@ -59,10 +59,12 @@ var bamazonCustomer = {
 
           // checks to see if there is enough stock to complete order
           if (newQuantity >= 0) {
-            console.log(`Item purchased! Your total is: $${res[0].price * requestedQty}`);
+            var customerTotal = res[0].price * requestedQty;
+            var productSales = res[0].product_sales + customerTotal;
+            console.log(`Item purchased! Your total is: $${customerTotal}`);
 
             // if enough stock, updates quantity for item in database
-            connection.query(`UPDATE products SET stock_quantity = ${newQuantity} WHERE item_id = ${itemID}`, function(err, res) {
+            connection.query(`UPDATE products SET stock_quantity = ${newQuantity}, product_sales = ${productSales} WHERE item_id = ${itemID}`, function(err, res) {
               if (err) throw (err);
               console.log('Item quantity updated!')
             })
