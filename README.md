@@ -11,4 +11,4 @@ This was set up similar to bamazonCustomer. The difference was that the manager 
 
 bamazonSupervisor -
 
-The tough part here was figuring out how to join the two tables (departments and products) based off my very limited SQL experience. The 'Add New Department' functionality acted the same as adding a new product in the above iterations.
+The tough part here was figuring out how to join the two tables (departments and products) based off my very limited SQL experience. The 'Add New Department' functionality acted the same as adding a new product in the above iterations. Once I was able to join the two tables, I added the profits column using a SUM / AS statement.
