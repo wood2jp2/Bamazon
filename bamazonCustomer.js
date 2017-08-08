@@ -1,6 +1,7 @@
 // node modules
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const consoleTable = require('console.table');
 
 // database connection
 const connection = mysql.createConnection({
