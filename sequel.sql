@@ -25,12 +25,16 @@ PRIMARY KEY(department_id)
 
 ALTER TABLE products ADD product_sales DECIMAL(11,2) NOT NULL;
 
+ALTER TABLE products
+ALTER COLUMN product_sales SET DEFAULT 0.00;
+
 INSERT INTO departments(department_name, over_head_costs) VALUES ('electronics', 200), ('bathroom', 400),
 ('kitchen', 250), ('Sports', 50), ('Music', 100), ('Furniture', 400), ('stationary', 30),
 ('Condiments', 10), ('Clothing', 350)
 
-SELECT departments.department_id, departments.department_name, departments.over_head_costs, products.product_sales,
-SUM(products.product_sales - departments.over_head_costs) AS total_profit
-FROM products
-LEFT JOIN departments ON departments.department_name=products.department_name
-GROUP BY departments.department_id, departments.department_name, departments.over_head_costs, products.product_sales
+SELECT departments.department_id, departments.department_name, departments.over_head_costs,
+SUM(products.product_sales - departments.over_head_costs) AS total_profit,
+SUM(products.product_sales) AS product_sales
+FROM departments
+LEFT JOIN products ON departments.department_name=products.department_name
+GROUP BY department_id

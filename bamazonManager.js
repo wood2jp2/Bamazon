@@ -86,7 +86,8 @@ var bamazonManager = {
                 // ensuring answer is greater than zero
                 if (addQuantity > 0) {
                   // updating amount in SQL per manager re-stock
-                  connection.query(`UPDATE products SET stock_quantity = ${refreshedQuantity} WHERE item_id = ${itemID}`, function(err, results) {
+                  connection.query(`UPDATE products SET stock_quantity = ${refreshedQuantity} \
+                    WHERE item_id = ${itemID}`, function(err, results) {
                     console.log(`${res[0].product_name}'s QTY updated to ${refreshedQuantity}`);
                   });
                 } else {
@@ -121,10 +122,12 @@ var bamazonManager = {
             var newQty = answers.newProductQty;
 
             // adding to table
-            connection.query(`INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ('${newName}', '${newDept}', '${newPrice}', '${newQty}')`, function(err, res) {
-              if (err) throw (err);
-              console.log('Product added!');
-            });
+            connection.query(`INSERT INTO products (product_name, department_name, price, stock_quantity) \
+                              VALUES ('${newName}', '${newDept}', '${newPrice}', '${newQty}')`,
+              function(err, res) {
+                if (err) throw (err);
+                console.log('Product added!');
+              });
           });
           break;
         default:

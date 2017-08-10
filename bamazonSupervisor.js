@@ -39,10 +39,16 @@ var bamazonSupervisor = {
         case 'View Product Sales by Department':
 
           // took me a while to figure out this query lol
-          connection.query("SELECT departments.department_id, departments.department_name, departments.over_head_costs, products.product_sales, SUM(products.product_sales - departments.over_head_costs) AS total_profit FROM products LEFT JOIN departments ON departments.department_name=products.department_name GROUP BY departments.department_id, departments.department_name, departments.over_head_costs, products.product_sales", function(err, res) {
-            if (err) throw (err);
-            console.table(res);
-          });
+          connection.query("SELECT departments.department_id, departments.department_name, departments.over_head_costs, \
+                            SUM(products.product_sales) AS product_sales \
+                            SUM(products.product_sales - departments.over_head_costs) AS total_profit, \
+                            FROM departments \
+                            LEFT JOIN products ON departments.department_name=products.department_name \
+                            GROUP BY department_id",
+            function(err, res) {
+              if (err) throw (err);
+              console.table(res);
+            });
           break;
 
         case 'Create New Department':
@@ -57,7 +63,8 @@ var bamazonSupervisor = {
             var newOverhead = parseInt(answers.newDeptOverhead);
 
             // if there's one thing I can do with mySQL, it's insert new values into the DB
-            connection.query(`INSERT INTO departments (department_name, over_head_costs) VALUES ('${newDeptName}', ${newOverhead})`, function(err, res) {
+            connection.query(`INSERT INTO departments (department_name, over_head_costs) \
+                              VALUES ('${newDeptName}', ${newOverhead})`, function(err, res) {
               console.log('Department has been added!');
             });
           });

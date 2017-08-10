@@ -72,8 +72,10 @@ var bamazonCustomer = {
           } else {
             console.log(`Insufficient quantity! There are only ${res[0].stock_quantity} currently in stock and available to purchase!`)
           }
-        })
-    })
+        }).then(bamazonCustomer.displayProducts());;
+    });
+
+
   }
 };
 
